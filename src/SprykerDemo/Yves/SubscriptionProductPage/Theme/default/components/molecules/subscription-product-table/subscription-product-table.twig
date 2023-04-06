@@ -1,0 +1,80 @@
+{% extends molecule('order-table', 'CustomerPage') %}
+
+{% define data = {
+    requestUri: app.request.requestUri,
+} %}
+
+{% block body %}
+    {% if data.orders is empty %}
+        <p>{{ 'customer.account.no_subscriptions' | trans }}</p>
+    {% else %}
+        <table class="table table--expand table--responsive table--medium-indent">
+            <thead>
+                <tr>
+                    <th class="transform-cell spacing-top spacing-top--inner spacing-top--big">{{ 'product.subscription.subscription_id' | trans }}</th>
+                    <th>{{ 'product.subscription.item_name' | trans }}</th>
+                    <th>{{ 'product.subscription.date' | trans }}</th>
+                    <th>{{ 'product.subscription.total' | trans }}</th>
+                    <th>{{ 'product.subscription.item_state' | trans }}</th>
+                    <th>{{ 'product.subscription.interval' | trans }}</th>
+                    <th>{{ 'product.subscription.actions' | trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in data.orders %}
+                {% for item in order.items %}
+                    {% if item.metadata.superAttributes.subscription_interval is defined and item.metadata.superAttributes.subscription_interval != null%}
+                    <tr>
+                        <td class="transform-cell spacing-top spacing-top--inner spacing-top--big" data-content="{{ 'product.subscription.order_id' | trans }}">
+                            {{- order.orderReference -}}-{{item.id}}
+                        </td>
+                        <td class="transform-cell" data-content="{{ 'product.subscription.item_name' | trans }}">
+                            {{- item.name -}}
+                        </td>
+                        <td class="transform-cell" data-content="{{ 'product.subscription.date' | trans }}">{{ date(order.createdAt) | formatDateTime }}</td>
+                        <td class="transform-cell" data-content="{{ 'product.subscription.total' | trans }}"><strong>{{ item.unitPrice | default(0) | money(true, order.currencyIsoCode) }}</strong></td>
+                        <td class="transform-cell">
+                            {% block stateWrapper %}
+
+                                {% if order.orderReference %}
+                                    {% block state %}
+                                        {% include molecule('status') with {
+                                            data: {
+                                                label: item.state.displayName | trans,
+                                                status: item.state.name,
+                                            },
+                                        } only %}
+                                    {% endblock %}
+                                {% endif %}
+                            {% endblock %}
+                        </td>
+                        <td class="transform-cell" data-content="{{ 'product.subscription.interval' | trans }}">{{ item.metadata.superAttributes.subscription_interval }}</td>
+
+                        <td class="text-left">
+                            <ul class="menu menu--inline menu--customer-account menu--actions">
+                                    <li class="menu__item">
+                                        {% set productCancelSubscriptionForm = embed.CancelSubscriptionForm %}
+                                        {{ form_start(productCancelSubscriptionForm, {'action': path('subscription-product/cancel', {
+                                            'sales_order_id': order.idSalesOrder,
+                                            'sales_order_item_id': item.idSalesOrderItem
+                                        })}) }}
+                                        <button class="link link--darkest" {% if item.state.name != 'subscription active' %} disabled="true" {% endif %}data-init-single-click>
+                                            {% include atom('icon') with {
+                                                modifiers: ['big'],
+                                                data: {
+                                                    name: 'cancel'
+                                                }
+                                            } only %}
+                                        </button>
+                                        {{ form_end(productCancelSubscriptionForm) }}
+                                    </li>
+                            </ul>
+                        </td>
+                </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

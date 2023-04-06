@@ -1,0 +1,50 @@
+{% extends template('page-layout-customer', 'CustomerPage') %}
+
+{% define data = {
+    orders: _view.orderList,
+    ordersAggregatedItemStateDisplayNames: _view.ordersAggregatedItemStateDisplayNames | default([]),
+    productCancelSubscriptionForm: _view.productCancelSubscriptionForm,
+
+    pagination: {
+        parameters: {},
+        currentPage: _view.pagination.page,
+        paginationPath: 'subscription-product',
+        maxPage: _view.pagination.lastPage,
+        showAlwaysFirstAndLast: true,
+    },
+
+    title: 'customer.account.subscriptions' | trans,
+    activePage: 'subscription',
+} %}
+
+{% block customerContent %}
+    {% embed molecule('action-bar') with {
+        modifiers: ['first'],
+        data: {
+            title: 'customer.account.subscriptions' | trans,
+        }
+    } only %}
+        {% block actions %}
+        {% endblock %}
+    {% endembed %}
+
+    {% set CancelSubscriptionForm = data.productCancelSubscriptionForm %}
+
+    <div>
+
+        {% include molecule('subscription-product-table', 'SubscriptionProductPage') with {
+            data: {
+                orders: data.orders.orders,
+            },
+            embed: {
+                CancelSubscriptionForm: CancelSubscriptionForm,
+            },
+        } only %}
+
+        <hr>
+
+        {% include molecule('pagination') with {
+            data: data.pagination,
+        } only %}
+    </div>
+{% endblock %}

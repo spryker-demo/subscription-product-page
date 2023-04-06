@@ -1,0 +1,28 @@
+{
+    "name": "spryker-demo/subscription-product-page",
+    "type": "library",
+    "description": "Subscription product page module",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0",
+        "spryker-shop/customer-page": "*",
+        "spryker/glossary": "*"
+    },
+    "require-dev": {
+        "spryker/code-sniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerDemo\\": "src/SprykerDemo/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
