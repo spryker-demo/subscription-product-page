@@ -5,8 +5,15 @@
     "license": "proprietary",
     "require": {
         "php": ">=8.0",
-        "spryker-shop/customer-page": "*",
-        "spryker/glossary": "*"
+        "spryker-demo/subscription-product-oms": "*",
+        "spryker-shop/customer-page": "^2.40.1",
+        "spryker/application": "^3.30.1",
+        "spryker/customer": "^7.48.1",
+        "spryker/glossary-storage": "^1.11.0",
+        "spryker/kernel": "^3.70.0",
+        "spryker/router": "^1.14.1",
+        "spryker/sales": "^11.34.2",
+        "spryker/symfony": "^3.11.1"
     },
     "require-dev": {
         "spryker/code-sniffer": "*"

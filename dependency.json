@@ -1,0 +1,6 @@
+{
+    "include": {
+        "spryker-shop/customer-page": "Provides base for Twig templates.",
+        "spryker/router": "Provides base classes for router plugins."
+    }
+}
