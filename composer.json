@@ -4,7 +4,7 @@
     "description": "Subscription product page module",
     "license": "proprietary",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "spryker-demo/subscription-product-oms": "^1.0.0",
         "spryker-shop/customer-page": "^2.40.1",
         "spryker/application": "^3.30.1",
