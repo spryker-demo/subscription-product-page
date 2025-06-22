@@ -10,7 +10,7 @@
         "spryker/application": "^3.30.1",
         "spryker/customer": "^7.48.1",
         "spryker/glossary-storage": "^1.11.0",
-        "spryker/kernel": "^3.70.0",
+        "spryker/kernel": "^3.75.0",
         "spryker/router": "^1.14.1",
         "spryker/sales": "^11.34.2",
         "spryker/symfony": "^3.11.1"
